@@ -6,8 +6,28 @@ const uniqid = require('uniqid');
 
 // Executing express on line below
 const app = express();
+
 // All caps means DO NOT CHANGE THIS VARIABLE
 const PORT = process.env.PORT || 3001;
+
+// FUNCTIONS
+const readAndAppend = (content, file) => {
+  fs.readFile(file, 'utf8', (err, data) => {
+    if (err) {
+      console.error(err);
+    } else {
+      const parsedData = JSON.parse(data);
+      parsedData.push(content);
+      writeToFile(file, parsedData);
+    }
+  });
+};
+
+const writeToFile = (destination, content) => {
+  fs.writeFile(destination, JSON.stringify(content, null, 4), (err) =>
+    err ? console.error(err) : console.info(`\nData written to ${destination}`)
+  )};
+
 
 // Exposes the files in public folder to the open web
 app.use(express.static('public'));
@@ -17,8 +37,9 @@ app.use(express.urlencoded({extended: true}));
 
 // Enables get function to see notes page
 app.get('/api/notes', (req, res) => {
-  fs.readFile('.db/db.json', 'utf-8', function (err, data) {
-    console.log('Data from Notes', data);
+  fs.readFile('.db/db.json', 'utf8', function (err, data) {
+    console.log('not in use');
+    // console.log(data);
   })
 });
 
@@ -36,9 +57,10 @@ app.post('/api/notes', (req, res) => {
     };
 
     // Convert the data to a string
-    const noteString = JSON.stringify(newNote, null, 2);
+    // const noteString = JSON.stringify(newNote, null, 2);
 
 // Some type of fs function
+    readAndAppend(newNote, './db/db.json');
 
     const response = {
       status: 'success',
@@ -72,48 +94,3 @@ app.get('*', (req, res) => {
 app.listen(PORT, () =>
   console.log(`Example app listening at http://localhost:${PORT}`)
 );
-
-
-
-// POST request to add a review
-app.post('/api/reviews', (req, res) => {
-  // Log that a POST request was received
-  console.info(`${req.method} request received to add a review`);
-
-  // Destructuring assignment for the items in req.body
-  const { product, review, username } = req.body;
-
-  // If all the required properties are present
-  if (product && review && username) {
-    // Variable for the object we will save
-    const newReview = {
-      product,
-      review,
-      username,
-      upvotes: Math.floor(Math.random() * 100),
-      review_id: uuid(),
-    };
-
-    // Convert the data to a string so we can save it
-    const reviewString = JSON.stringify(newReview, null, 2);
-
-    // Write the string to a file
-    fs.writeFile(`./db/${newReview.product}.json`, reviewString, (err) =>
-      err
-        ? console.error(err)
-        : console.log(
-            `Review for ${newReview.product} has been written to JSON file`
-          )
-    );
-
-    const response = {
-      status: 'success',
-      body: newReview,
-    };
-
-    console.log(response);
-    res.status(201).json(response);
-  } else {
-    res.status(500).json('Error in posting review');
-  }
-});
