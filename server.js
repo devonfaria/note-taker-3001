@@ -2,6 +2,7 @@ const express = require('express');
 // Built in Node JS Module that corrects path names for you, like repeated forward slashes, forges paths together safely
 const path = require('path');
 const fs = require('fs');
+const util = require('util');
 const uniqid = require('uniqid');
 
 // Executing express on line below
@@ -26,22 +27,25 @@ const readAndAppend = (content, file) => {
 const writeToFile = (destination, content) => {
   fs.writeFile(destination, JSON.stringify(content, null, 4), (err) =>
     err ? console.error(err) : console.info(`\nData written to ${destination}`)
-  )};
+  )
+};
 
+const readFromFile = util.promisify(fs.readFile);
 
 // Exposes the files in public folder to the open web
 app.use(express.static('public'));
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
-
-// Enables get function to see notes page
+// Loads index.html page
 app.get('/api/notes', (req, res) => {
-  fs.readFile('.db/db.json', 'utf8', function (err, data) {
-    console.log('not in use');
-    // console.log(data);
-  })
+  readFromFile('./db/db.json').then((data) => res.json(JSON.parse(data)));
 });
+// Enables get function to see notes page
+// app.get('/notes', (req, res) => {
+//   console.log(`${req.method} request received for notes`);
+//   readFromFile('./db/db.json').then((data) => res.json(JSON.parse(data)));
+// });
 
 // Accepts data from front end and converts to JSON for storage
 app.post('/api/notes', (req, res) => {
@@ -73,12 +77,6 @@ app.post('/api/notes', (req, res) => {
     res.status(500).json('Error in posting review');
   }
 });
-
-
-//   fs.writeFile('.db/db.json', res, function (err, data) {
-//     console.log('Data from Notes', data);
-//   })
-// });
 
 // Loads index.html page
 app.get('/notes', (req, res) => {
