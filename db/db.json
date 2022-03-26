@@ -1,21 +1,18 @@
 [
     {
-        "title": "Test Title",
-        "text": "Test text"
+        "title": "Walk the dog",
+        "text": "Test text",
+        "id": "sktwiqw8l16zmi8z"
+
     },
     {
-        "title": "Hello there",
-        "text": "is is a testnope th",
-        "note_id": "sktwiqw8l16zmi8z"
-    },
-    {
-        "title": "killllll",
+        "title": "Submit homework for bootcamp",
         "text": "alll nodeeee",
-        "note_id": "sktwiqw8l16zmy3y"
+        "id": "sktwiqw8l16zmy3y"
     },
     {
-        "title": "Cool",
+        "title": "Tutoring Session",
         "text": "Stuff",
-        "note_id": "sktwirjyl172azhk"
+        "id": "sktwirjyl172azhk"
     }
 ]

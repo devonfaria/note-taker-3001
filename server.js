@@ -57,7 +57,7 @@ app.post('/api/notes', (req, res) => {
     const newNote = {
       title,
       text,
-      note_id: uniqid(),
+      id: uniqid(),
     };
 
     // Convert the data to a string

@@ -23,6 +23,10 @@ The following image is of the landing page for the Note Taker 3001.
 
 ![note taker 3001 main page](./images/Note-Taker-start.png)
 
+The following image is the note input page with a toggled save button and new input button in the header. The sidebar includes note buttons to show full stored note details.
+
+![note taker 3001 main page](./images/Note-Taker-display.png)
+
 ## Usage
 
 To enjoy this application, you will visit the URL at this [link.](https://floating-hollows-16544.herokuapp.com/)
@@ -31,6 +35,7 @@ To enjoy this application, you will visit the URL at this [link.](https://floati
 
 * Node JS
 * Express
+* Heroku
 
 ## Licenses
 
@@ -46,3 +51,4 @@ Devon Faria
 
 ## Contributions
 
+Thank you to Anthony Cooper for always being so descript. 
